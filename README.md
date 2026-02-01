@@ -29,8 +29,8 @@ Editeur :
 - Appuyer sur le bouton save pour sauvegarder
 
 ## Credits
-Sprites du joueur + balle : https://dead-pixelsz.itch.io/enemies-series-tiny-enemies7
-Sprites des enemies : https://itch.io/queue/c/948368/sci-fi-series?game_id=764219&password=
-Sprites du Pet drone : https://rapidpunches.itch.io/fish-fish-seaturtle-pack
-Sprites de la balle du pet : moi
-Background : https://ansimuz.itch.io/underwater-fantasy-pixel-art-environment
+- Sprites du joueur + balle : https://dead-pixelsz.itch.io/enemies-series-tiny-enemies7
+- Sprites des enemies : https://itch.io/queue/c/948368/sci-fi-series?game_id=764219&password=
+- Sprites du Pet drone : https://rapidpunches.itch.io/fish-fish-seaturtle-pack
+- Sprites de la balle du pet : moi
+- Background : https://ansimuz.itch.io/underwater-fantasy-pixel-art-environment
