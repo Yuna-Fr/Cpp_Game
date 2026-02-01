@@ -16,14 +16,19 @@ Pet::Pet(std::shared_ptr<sf::Sprite> sprite) : Entity(sprite)
 
 	isFacingRight = false;
 	animSpeed = 0.3f;
+
+	player = g.player;
 }
 
 void Pet::update(double dt)
 {
 	animate((float)dt);
-
-	if (g.player) 
+	
+	if (auto p = player.lock()) 
 	{
+		if (p->isDead) return;
+	
+		// Shooting logic
 		if (!bullet.lock()) {
 			bulletTimer += dt;
 			if (bulletTimer >= bulletReloadingTime && g.enemies.size() != 0)
@@ -39,10 +44,11 @@ void Pet::update(double dt)
 					float dist = std::abs((e->cx + e->rx) - (cx + rx));
 					if (dist < targetDist)
 					{
-						//if algo de bresenham pour voir si poisson voit enemy
-						//si oui
+						if (canSee(e->cx, e->cy))
+						{
 							targetDist = dist;
 							target = e;
+						}
 					}
 				}
 
@@ -53,14 +59,14 @@ void Pet::update(double dt)
 			}
 		}
 
-		Vector2<int> targetPos = g.player->getPosGrid();
-		targetPos = g.player->isFacingRight ? targetPos + Vector2<int>{-3, -3} : targetPos + Vector2<int>{3, -3};
+		Vector2<int> targetPos = p->getPosGrid();
+		targetPos = p->isFacingRight ? targetPos + Vector2<int>{-3, -3} : targetPos + Vector2<int>{3, -3};
 
 		if (targetPos.x == cx && targetPos.y == cy)
 		{
 			dx = 0;
 			animSpeed = 0.5f;
-			sprite->setScale(g.player->isFacingRight ? -abs(SCALE) : abs(SCALE), SCALE);
+			sprite->setScale(p->isFacingRight ? -abs(SCALE) : abs(SCALE), SCALE);
 			return;
 		}
 		
@@ -82,7 +88,7 @@ void Pet::update(double dt)
 			dx = -SPEED;
 		}
 		else {
-			isFacingRight = g.player->isFacingRight;
+			isFacingRight = p->isFacingRight;
 			dx = 0;
 		}
 
@@ -117,6 +123,55 @@ void Pet::update(double dt)
 bool Pet::im()
 {
 	return false;
+}
+
+bool Pet::canSee(int targetX, int targetY) // Bresenham's line algorithm
+{
+	int petX = cx;
+	int petY = cy;
+
+	bool swapXY = std::abs(targetY - petY) > std::abs(targetX - petX);
+
+	if (swapXY)
+	{
+		std::swap(petX, petY);
+		std::swap(targetX, targetY);
+	}
+
+	if (petX > targetX)
+	{
+		std::swap(petX, targetX);
+		std::swap(petY, targetY);
+	}
+
+	int deltaX = targetX - petX;
+	int deltaY = std::abs(targetY - petY);
+	int error = deltaX / 2;
+
+	int y = petY;
+	int ystep = (petY < targetY) ? 1 : -1;
+
+	for (int x = petX; x <= targetX; ++x)
+	{
+		int worldX = swapXY ? y : x;
+		int worldY = swapXY ? x : y;
+
+		// Ignore starting tile, allow target tile
+		if (!(worldX == cx && worldY == cy))
+		{
+			if (g.hasCollision(worldX, worldY))
+				return false;
+		}
+
+		error -= deltaY;
+		if (error < 0)
+		{
+			y += ystep;
+			error += deltaX;
+		}
+	}
+
+	return true;
 }
 
 void Pet::animate(float dt)

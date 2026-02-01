@@ -16,7 +16,7 @@ public:
 private:
 	float						bulletTimer = 0.f;
 	float						bulletReloadingTime = 2.0f;
-	std::weak_ptr<Enemy>		target;
+	std::weak_ptr<Player>		player;
 	std::weak_ptr<PetBullet>	bullet;
 
 public:
@@ -26,6 +26,7 @@ public:
 	bool im() override;
 
 private:
+	bool canSee(int targetX, int targetY);
 	void animate(float dt);
 };
 

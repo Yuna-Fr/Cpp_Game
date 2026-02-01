@@ -33,7 +33,6 @@ class Entity
 
 	public:
 		Entity(std::shared_ptr<sf::Sprite> sprite);
-		//virtual ~Entity() { delete sprite; }
 
 		virtual void	update(double dt) = 0;
 		virtual bool	im() = 0;

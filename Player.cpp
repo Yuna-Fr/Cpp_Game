@@ -119,7 +119,7 @@ void Player::shoot()
 {
 	if (!shooting) 
 	{
-		g.spawnPlayerBullet(cx + rx, cy + ry, isFacingRight);
+		g.spawnPlayerBullet(cx + rx, cy, isFacingRight);
 		shooting = true;
 	}
 
