@@ -1,7 +1,7 @@
 # READ ME de Yuna BONNIFET
 
 ## Liste des features
-- Déplacements du player : Oui
+- Déplacements du player : Oui, le joueur peut sauter par dessus des murs (c'est une intention de ma part de pouvoir sauter par dessus une platforme lorsque elle est au dessus de nous)
 - Editeur ingame avec imgui pour faire les murs et les ennemis : Oui, on peut également déplacer le spawn du player
 - Load / Save sur disque : Oui, suffit d'appuyer sur le bouton Save lorsque en pause dans le menu d'édition
 - Ennemis avec ia à moustache basiques: Oui, ils se tourne dès qu'ils ne peuvent plus avancer dans une direction, vous tue au contact
